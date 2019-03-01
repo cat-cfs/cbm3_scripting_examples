@@ -38,11 +38,11 @@ class SITConfig(object):
 
     def save(self, path):
         with open(path, 'w') as configfile:
-            configfile.write(json.dumps(config, indent=4))
+            configfile.write(json.dumps(self.config, indent=4))
 
     def import_project(self, exe_path, config_save_path=None):
         if config_save_path is None:
-            with tempfile.NamedTemporaryFile() as f:
+            with tempfile.NamedTemporaryFile(mode='w') as f:
                 f.write(json.dumps(self.config))
                 subprocess.check_call([exe_path,'-c', f.name])
         else:
@@ -103,7 +103,7 @@ class SITConfig(object):
 
     def map_spatial_unit(self, user_spatial_unit, default_admin, default_eco):
         if self.config["mapping_config"]["spatial_units"]["mapping_mode"] != "JoinedAdminEcoClassifier":
-        raise ValueError("cannot map spatial unit without spatial unit classifier mapping set")
+            raise ValueError("cannot map spatial unit without spatial unit classifier mapping set")
         if not "spu_mapping" in self.config["mapping_config"]["spatial_units"]:
             self.config["mapping_config"]["spatial_units"]["spu_mapping"] = []
         self.config["mapping_config"]["spatial_units"]["spu_mapping"].append({
@@ -119,7 +119,7 @@ class SITConfig(object):
             self.config["mapping_config"]["species"]["species_mapping"] = []
         self.config["mapping_config"]["species"]["species_mapping"].append({
             "user_species": user,
-            "default": default
+            "default_species": default
         })
 
     def map_nonforest(self, user, default):
@@ -173,7 +173,7 @@ class SITConfig(object):
 
         self.config["data"] = {
             "age_class": {"age_class_size":age_class_size, "num_age_classes":num_age_classes},
-            "classifiers": classifiers
+            "classifiers": classifiers,
             "disturbance_events": [],
             "inventory": [],
             "transition_rules": [],
