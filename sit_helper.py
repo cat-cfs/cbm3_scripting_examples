@@ -67,12 +67,64 @@ class SITConfig(object):
             "user_dist_type": user,
             "default_dist_type": default
         })
+
+    def map_admin_boundary(user, default):
+        if self.config["mapping_config"]["spatial_units"]["mapping_mode"] != "SeperateAdminEcoClassifiers":
+            raise ValueError("cannot map admin boundary without admin/eco classifier mapping set")
+        if not "admin_mapping" in self.config["mapping_config"]["spatial_units"]:
+            self.config["mapping_config"]["spatial_units"]["admin_mapping"] = []
+        self.config["mapping_config"]["spatial_units"]["admin_mapping"].append({
+            "user_admin_boundary": user,
+            "default_admin_boundary": default
+        })
         
-        
+    def map_eco_boundary(user, default):
+        if self.config["mapping_config"]["spatial_units"]["mapping_mode"] != "SeperateAdminEcoClassifiers":
+            raise ValueError("cannot map eco boundary without admin/eco classifier mapping set")
+        if not "eco_mapping" in self.config["mapping_config"]["spatial_units"]:
+            self.config["mapping_config"]["spatial_units"]["eco_mapping"] = []
+        self.config["mapping_config"]["spatial_units"]["eco_mapping"].append({
+            "user_eco_boundary": user,
+            "default_eco_boundary": default
+        })
+
+    def map_spatial_unit(user_spatial_unit, default_admin, default_eco):
+        if self.config["mapping_config"]["spatial_units"]["mapping_mode"] != "JoinedAdminEcoClassifier":
+        raise ValueError("cannot map spatial unit without spatial unit classifier mapping set")
+        if not "spu_mapping" in self.config["mapping_config"]["spatial_units"]:
+            self.config["mapping_config"]["spatial_units"]["spu_mapping"] = []
+        self.config["mapping_config"]["spatial_units"]["spu_mapping"].append({
+            "user_spatial_unit": user_spatial_unit,
+            "default_spatial_unit": {
+                "admin_boundary": default_admin,
+                "default_eco": default_eco
+            }
+        })
+
+    def map_species(user, default):
+        if not "species_mapping" in self.config["mapping_config"]["species"]:
+            self.config["mapping_config"]["species"]["species_mapping"] = []
+        self.config["mapping_config"]["species"]["species_mapping"].append({
+            "user_species": user,
+            "default": default
+        })
+
+    def map_nonforest(user, default):
+        if self.config["mapping_config"]["nonforest"] is None:
+            raise ValueError("cannot map non forest value without non-forest classifier set")
+        if not "nonforest_mapping" in self.config["mapping_config"]["nonforest"]:
+            self.config["mapping_config"]["nonforest"]["nonforest_mapping"] = []
+        self.config["mapping_config"]["nonforest"]["nonforest_mapping"].append({
+            "user_nonforest_type": user,
+            "default_nonforest_type": default
+        })
 
     def text_file_paths(self, ageclass_path, classifiers_path,
         disturbance_events_path, disturbance_types_path, inventory_path,
         transition_rules_path, yield_path):
+        if "import_config" in self.config or "data" in self.config:
+            raise ValueError("only one call of function of text_file_paths, database_path, data_config may be used")
+        
         self.config["import_config"] = {
             "ageclass_path": ageclass_path,
             "classifiers_path": classifiers_path,
@@ -87,6 +139,9 @@ class SITConfig(object):
         disturbance_events_table_name, disturbance_types_table_name,
         inventory_table_name, transition_rules_table_name, yield_table_name):
         
+        if "import_config" in self.config or "data" in self.config:
+            raise ValueError("only one call of function of text_file_paths, database_path, data_config may be used")
+
         self.config["import_config"] = {
             "path": db_path,
             "ageclass_table_name": age_class_table_name,
@@ -97,8 +152,12 @@ class SITConfig(object):
             "transition_rules_table_name": transition_rules_table_name,
             "yield_table_name": yield_table_name
         }
-    
+
     def data_config(self, age_class_size, num_age_classes, classifiers):
+    
+        if "import_config" in self.config or "data" in self.config:
+            raise ValueError("only one call of function of text_file_paths, database_path, data_config may be used")
+
         self.config["data"] = {
             "age_class": {"age_class_size":age_class_size, "num_age_classes":num_age_classes},
             "classifiers": classifiers
