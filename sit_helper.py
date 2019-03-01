@@ -55,7 +55,7 @@ class SITConfig(object):
     def set_single_spatial_unit(self, id):
         self.config["mapping_config"]["spatial_units"] = {}
         self.config["mapping_config"]["spatial_units"]["mapping_mode"] = "SingleDefaultSpatialUnit"
-        self.config["mapping_config"]["spatial_units"]["default_spuid"] = 42
+        self.config["mapping_config"]["spatial_units"]["default_spuid"] = id
 
     def set_admin_eco_mapping(self, admin_classifier, eco_classifier):
         self.config["mapping_config"]["spatial_units"] = {}
