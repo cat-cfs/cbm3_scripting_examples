@@ -21,6 +21,7 @@ python notebook cbm3 scripting examples
   * pyodbc
   * matplotlib
   * pandas
+  * GitPython
   
  ## Running
  
