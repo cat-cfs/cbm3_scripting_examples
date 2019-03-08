@@ -3,7 +3,7 @@ python notebook cbm3 scripting examples
 
 ## Setup
 
-# Software Requirements
+### Software Requirements
  * The [Operational-Scale CBM-CFS3](https://carbon.nfis.org/cbm) toolbox
  * A web browser that can run [Jupyter Notebook](https://jupyter.org/)
  * The ability to connect to ms access databases.  
