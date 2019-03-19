@@ -40,6 +40,9 @@ class SITConfig(object):
         }
 
     def save(self, path):
+        dir = os.path.dirname(path)
+        if not os.path.exists(dir):
+            os.makedirs(dir)
         with open(path, 'w') as configfile:
             configfile.write(json.dumps(self.config, indent=4))
 
