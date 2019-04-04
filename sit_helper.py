@@ -14,7 +14,7 @@ def load_standard_import_tool_plugin():
     #extra subdir in the archive    
     StandardImportToolPluginExe = os.path.join(StandardImportToolPluginDir,"Release", "StandardImportToolPlugin.exe")
     if not os.path.exists(StandardImportToolPluginExe):
-        resp = urlopen('https://github.com/cat-cfs/StandardImportToolPlugin/releases/download/1.2.1/Release.zip')
+        resp = urlopen('https://github.com/cat-cfs/StandardImportToolPlugin/releases/download/1.2.2/Release.zip')
         zipfile = ZipFile(BytesIO(resp.read()))
 
         #os.makedirs(StandardImportToolPluginDir)
