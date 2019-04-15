@@ -3,7 +3,7 @@
 
 import git
 import os,sys
-def load_cbm3_python(branch=None):
+def load_cbm3_python(branch="master"):
     '''
     Clone the cbm3_python repository from Github if it does not exist locally already.  
     If it does already exist locally do a git pull to get the latest revisions
